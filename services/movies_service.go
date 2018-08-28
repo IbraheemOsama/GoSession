@@ -3,13 +3,7 @@ package services
 import (
 	"GoSession/helpers"
 	"GoSession/models"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
 	"strconv"
-
-	"github.com/gorilla/mux"
 
 	"net/http"
 )
@@ -18,10 +12,9 @@ type MoviesService struct {
 	ResponseHelper *helpers.ResponseHelper
 }
 
-func (service MoviesService) InitAndRegisterService(router *mux.Router) {
-	service.ResponseHelper = &helpers.ResponseHelper{}
-	router.HandleFunc("/movies", service.AllMoviesEndPoint).Methods("GET")
-}
+// TODO to implement interface Register_router_service and include this code in the function
+//service.ResponseHelper = &helpers.ResponseHelper{}
+//router.HandleFunc("/movies", service.AllMoviesEndPoint).Methods("GET")
 
 // GET list of movies
 func (service MoviesService) AllMoviesEndPoint(w http.ResponseWriter, r *http.Request) {
@@ -32,35 +25,17 @@ func (service MoviesService) AllMoviesEndPoint(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	if page > 3 || page < 1 {
-		page = 3
-	}
+	// TODO: check for page not less than one or more than 3
 
-	ch := make(chan []models.Movie, page)
+	// TODO: Create a channel and read and merge data from channel by calling GoRoutine readJson
 
-	for i := 1; i <= page; i++ {
-		go readJson(i, ch)
-	}
-
-	var result []models.Movie
-	for i := 1; i <= page; i++ {
-		result = append(result, <-ch...)
-	}
+	// TODO: Append dat to result variable
 
 	service.ResponseHelper.RespondWithJSON(w, http.StatusOK, result)
 }
 
 func readJson(fileNumber int, ch chan []models.Movie) {
 	fileName := "json\\movies" + strconv.Itoa(fileNumber) + ".json"
-	jsonFile, err := os.Open(fileName)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println("Successfully Opened " + fileName)
-	defer jsonFile.Close()
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var movies []models.Movie
-	json.Unmarshal(byteValue, &movies)
 
-	ch <- movies
+	// TODO: read data from file and then parse it then pass it back to channel
 }
