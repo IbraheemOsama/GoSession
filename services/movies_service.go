@@ -12,7 +12,7 @@ type MoviesService struct {
 	ResponseHelper *helpers.ResponseHelper
 }
 
-// TODO to implement interface Register_router_service and include this code in the function
+// TODO to implement interface Register_router_service and include the code below in the function
 //service.ResponseHelper = &helpers.ResponseHelper{}
 //router.HandleFunc("/movies", service.AllMoviesEndPoint).Methods("GET")
 
@@ -25,11 +25,11 @@ func (service MoviesService) AllMoviesEndPoint(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	// TODO: check for page not less than one or more than 3
+	// TODO: if page number is not in range 1,2,3 then defaut to 3
 
-	// TODO: Create a channel and read and merge data from channel by calling GoRoutine readJson
+	// TODO: Create a buffered channel and read and merge data from channel by calling GoRoutine readJson
 
-	// TODO: Append dat to result variable
+	// TODO: Append data to result variable
 
 	service.ResponseHelper.RespondWithJSON(w, http.StatusOK, result)
 }
